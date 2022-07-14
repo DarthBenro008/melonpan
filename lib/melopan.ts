@@ -15,7 +15,7 @@ class Melonpan {
       path
     );
     if (routerHandler) {
-      return routerHandler.handler();
+      return routerHandler.handler(req);
     }
 
     return new Response(`cannot find ${path}`);

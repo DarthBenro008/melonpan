@@ -5,7 +5,7 @@ export enum Methods {
   PUT = "PUT",
 }
 
-export type melonHandler = () => Response;
+export type melonHandler = (req: Request) => Response;
 export type routerHandler = {
   path: string;
   method: Methods;
