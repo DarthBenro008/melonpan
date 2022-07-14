@@ -2,9 +2,12 @@
   "name": "melonpan",
   "version": "0.1.0",
   "description": "A minimalistic and sweet router for blazing fast bun",
-  "main": "index.js",
+  "main": "index.ts",
   "repository": "https://github.com/DarthBenro008/melonpan",
   "author": "DarthBenro008",
   "license": "MIT",
+  "include": [
+    "lib/**/**"
+  ],
   "private": false
 }

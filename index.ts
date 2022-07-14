@@ -1,1 +1,1 @@
-export default "lib/melopan";
+export * from "./lib/melopan";

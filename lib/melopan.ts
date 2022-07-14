@@ -26,4 +26,4 @@ class Melonpan {
   }
 }
 
-export default Melonpan;
+export { RouterEngine as MelonRouter, Melonpan };

@@ -1,7 +1,6 @@
-import Melonpan from "../lib/melopan";
-import { RouterEngine } from "../lib/router";
+import { Melonpan, MelonRouter } from "../index";
 
-const router = new RouterEngine();
+const router = new MelonRouter();
 router.get("/hello", () => {
   return new Response("Hello from Melonpan");
 });
@@ -10,6 +9,6 @@ const melonpan = new Melonpan(router);
 export default {
   port: 3000,
   async fetch(req: Request) {
-    melonpan.serve(req);
+    return melonpan.serve(req);
   },
 };
