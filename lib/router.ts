@@ -1,12 +1,12 @@
 import { melonHandler, Methods, routerHandler, routeHashMap } from "./types";
 
 class RouterEngine {
-  routerMap: routeHashMap;
+  private routerMap: routeHashMap;
 
   constructor() {
     this.routerMap = new Map<string, routerHandler>();
   }
-  createRoute(method: Methods, path: string, handler: melonHandler) {
+  private createRoute(method: Methods, path: string, handler: melonHandler) {
     const route: routerHandler = {
       path,
       method,
@@ -29,11 +29,12 @@ class RouterEngine {
   put(path: string, handler: melonHandler) {
     this.createRoute(Methods.PUT, path, handler);
   }
+  //TODO: make this function protected by introducing an hirearchy entity
   getRouteFromRouter(method: Methods, path: string): routerHandler {
     return this.routerMap.get(this.getRouterKey(method, path));
   }
 
-  getRouterKey(method: Methods, path: string): string {
+  protected getRouterKey(method: Methods, path: string): string {
     return method + path;
   }
 }
