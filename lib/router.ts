@@ -1,7 +1,7 @@
-import { melonHandler, Methods, routerHandler, routerHashMap } from "./types";
+import { melonHandler, Methods, routerHandler, routeHashMap } from "./types";
 
 class RouterEngine {
-  routerMap: routerHashMap;
+  routerMap: routeHashMap;
 
   constructor() {
     this.routerMap = new Map<string, routerHandler>();

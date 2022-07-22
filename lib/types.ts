@@ -1,3 +1,5 @@
+import { RouterEngine } from "./router";
+
 export enum Methods {
   GET = "GET",
   POST = "POST",
@@ -12,4 +14,5 @@ export type routerHandler = {
   handler: melonHandler;
 };
 
-export type routerHashMap = Map<string, routerHandler>;
+export type routeHashMap = Map<string, routerHandler>;
+export type routerHashMap = Map<string, RouterEngine>;
