@@ -1,5 +1,5 @@
 import { RouterEngine } from "./router";
-import { Methods, RouteHandler, RouterMap } from "./types";
+import { MelonMiddleware, Methods, RouteHandler, RouterMap } from "./types";
 
 class Melonpan extends RouterEngine {
   private routerMapping: RouterMap;
@@ -16,6 +16,7 @@ class Melonpan extends RouterEngine {
     const path = this.sanitizeUrl(req.url);
     const method = Methods[req.method];
     let routeHandler: RouteHandler;
+    //We check for other router that matches the routes
     if (this.routerMapping.size != 0) {
       for (let [key, router] of this.routerMapping) {
         if (path.includes(key)) {
@@ -27,9 +28,11 @@ class Melonpan extends RouterEngine {
         }
       }
     }
+    //We check the default router to redirect to handler
     routeHandler = this.findHandlerfromMap(this, path, method);
     if (routeHandler) {
-      return routeHandler.handler(req);
+      let { mreq, mres } = this.executeMiddlewares(routeHandler.key, req);
+      return routeHandler.handler(mreq);
     }
     return new Response(`cannot find ${path}`);
   }
@@ -42,6 +45,24 @@ class Melonpan extends RouterEngine {
     return router.getRouteFromRouter(method, path);
   }
 
+  private executeMiddlewares(
+    key: number,
+    req: Request
+  ): { mreq: Request; mres: Response } {
+    let res: Response = new Response();
+    for (let i = 0; i < this.middlewareStorage.length; i++) {
+      if (key <= i) {
+        break;
+      }
+      const handler: MelonMiddleware = this.middlewareMap.get(
+        this.middlewareStorage[i]
+      );
+      handler(req, res, () => {
+        return;
+      });
+    }
+    return { mreq: req, mres: res };
+  }
   private sanitizeUrl(url: string): string {
     return new URL(url).pathname;
   }

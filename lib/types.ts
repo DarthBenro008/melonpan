@@ -8,11 +8,21 @@ export enum Methods {
 }
 
 export type MelonHandler = (req: Request) => Response;
+export type MelonMiddleware = (
+  req: Request,
+  res: Response,
+  next: () => void
+) => void;
+
 export type RouteHandler = {
   path: string;
   method: Methods;
   handler: MelonHandler;
+  key: number;
 };
 
 export type RouteMap = Map<string, RouteHandler>;
 export type RouterMap = Map<string, RouterEngine>;
+export type MiddlewareMap = Map<number, MelonMiddleware>;
+
+export type MiddlewareStorage = number[];
