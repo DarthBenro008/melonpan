@@ -10,9 +10,10 @@ import {
 
 class RouterEngine {
   private routerMap: RouteMap;
-  private counter: number;
-  protected middlewareStorage: MiddlewareStorage;
-  protected middlewareMap: MiddlewareMap;
+  key: number;
+  protected counter: number;
+  middlewareStorage: MiddlewareStorage;
+  middlewareMap: MiddlewareMap;
   constructor() {
     this.routerMap = new Map<string, RouteHandler>();
     this.middlewareMap = new Map<number, MelonMiddleware>();

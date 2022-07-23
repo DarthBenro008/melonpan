@@ -21,6 +21,14 @@ melonpan.get("/hi", () => {
   return new Response("3 middlewares have been called");
 });
 
+const router = new MelonRouter();
+router.middleware((req, res, next) => {
+  console.log("router: middleware");
+});
+router.get("/mid", () => {
+  return new Response("Router hit1");
+});
+melonpan.use("/router", router);
 export default {
   port: 3000,
   async fetch(req: Request) {

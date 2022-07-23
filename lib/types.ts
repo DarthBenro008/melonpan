@@ -7,7 +7,7 @@ export enum Methods {
   PUT = "PUT",
 }
 
-export type MelonHandler = (req: Request) => Response;
+export type MelonHandler = (req: Request, res: Response) => Response;
 export type MelonMiddleware = (
   req: Request,
   res: Response,
