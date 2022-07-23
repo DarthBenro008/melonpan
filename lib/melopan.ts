@@ -1,35 +1,35 @@
 import { RouterEngine } from "./router";
-import { Methods, routerHandler, routerHashMap } from "./types";
+import { Methods, RouteHandler, RouterMap } from "./types";
 
 class Melonpan extends RouterEngine {
-  private routerContainer: routerHashMap;
+  private routerMapping: RouterMap;
 
   constructor() {
     super();
-    this.routerContainer = new Map<string, RouterEngine>();
+    this.routerMapping = new Map<string, RouterEngine>();
   }
 
   use(path: string, router: RouterEngine) {
-    this.routerContainer.set(path, router);
+    this.routerMapping.set(path, router);
   }
   serve(req: Request): Response {
     const path = this.sanitizeUrl(req.url);
     const method = Methods[req.method];
-    let routerHandler: routerHandler;
-    if (this.routerContainer.size != 0) {
-      for (let [key, router] of this.routerContainer) {
+    let routeHandler: RouteHandler;
+    if (this.routerMapping.size != 0) {
+      for (let [key, router] of this.routerMapping) {
         if (path.includes(key)) {
           const trimmedPath = path.replace(key, "");
-          routerHandler = this.findHandlerfromMap(router, trimmedPath, method);
-          if (routerHandler) {
-            return routerHandler.handler(req);
+          routeHandler = this.findHandlerfromMap(router, trimmedPath, method);
+          if (routeHandler) {
+            return routeHandler.handler(req);
           }
         }
       }
     }
-    routerHandler = this.findHandlerfromMap(this, path, method);
-    if (routerHandler) {
-      return routerHandler.handler(req);
+    routeHandler = this.findHandlerfromMap(this, path, method);
+    if (routeHandler) {
+      return routeHandler.handler(req);
     }
     return new Response(`cannot find ${path}`);
   }
@@ -38,7 +38,7 @@ class Melonpan extends RouterEngine {
     router: RouterEngine,
     path: string,
     method: Methods
-  ): routerHandler {
+  ): RouteHandler {
     return router.getRouteFromRouter(method, path);
   }
 

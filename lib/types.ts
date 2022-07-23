@@ -7,12 +7,12 @@ export enum Methods {
   PUT = "PUT",
 }
 
-export type melonHandler = (req: Request) => Response;
-export type routerHandler = {
+export type MelonHandler = (req: Request) => Response;
+export type RouteHandler = {
   path: string;
   method: Methods;
-  handler: melonHandler;
+  handler: MelonHandler;
 };
 
-export type routeHashMap = Map<string, routerHandler>;
-export type routerHashMap = Map<string, RouterEngine>;
+export type RouteMap = Map<string, RouteHandler>;
+export type RouterMap = Map<string, RouterEngine>;

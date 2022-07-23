@@ -1,13 +1,13 @@
-import { melonHandler, Methods, routerHandler, routeHashMap } from "./types";
+import { MelonHandler, Methods, RouteHandler, RouteMap } from "./types";
 
 class RouterEngine {
-  private routerMap: routeHashMap;
+  private routerMap: RouteMap;
 
   constructor() {
-    this.routerMap = new Map<string, routerHandler>();
+    this.routerMap = new Map<string, RouteHandler>();
   }
-  private createRoute(method: Methods, path: string, handler: melonHandler) {
-    const route: routerHandler = {
+  private createRoute(method: Methods, path: string, handler: MelonHandler) {
+    const route: RouteHandler = {
       path,
       method,
       handler,
@@ -16,21 +16,21 @@ class RouterEngine {
     this.routerMap.set(key, route);
   }
 
-  get(path: string, handler: melonHandler) {
+  get(path: string, handler: MelonHandler) {
     this.createRoute(Methods.GET, path, handler);
   }
-  post(path: string, handler: melonHandler) {
+  post(path: string, handler: MelonHandler) {
     this.createRoute(Methods.POST, path, handler);
   }
 
-  delete(path: string, handler: melonHandler) {
+  delete(path: string, handler: MelonHandler) {
     this.createRoute(Methods.DELETE, path, handler);
   }
-  put(path: string, handler: melonHandler) {
+  put(path: string, handler: MelonHandler) {
     this.createRoute(Methods.PUT, path, handler);
   }
   //TODO: make this function protected by introducing an hirearchy entity
-  getRouteFromRouter(method: Methods, path: string): routerHandler {
+  getRouteFromRouter(method: Methods, path: string): RouteHandler {
     return this.routerMap.get(this.getRouterKey(method, path));
   }
 
