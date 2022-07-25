@@ -1,4 +1,5 @@
 import { RouterEngine } from "./router";
+import { RouterHelper } from "./routerHelper";
 
 export enum Methods {
   GET = "GET",
@@ -22,7 +23,7 @@ export type RouteHandler = {
 };
 
 export type RouteMap = Map<string, RouteHandler>;
-export type RouterMap = Map<string, RouterEngine>;
+export type RouterMap = Map<string, RouterHelper>;
 export type MiddlewareMap = Map<number, MelonMiddleware>;
 
 export type MiddlewareStorage = number[];

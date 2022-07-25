@@ -1,24 +1,27 @@
 import { RouterEngine } from "./router";
+import { RouterHelper } from "./routerHelper";
 import { MelonMiddleware, Methods, RouteHandler, RouterMap } from "./types";
 
 class Melonpan extends RouterEngine {
   private routerMapping: RouterMap;
 
   constructor() {
-    super();
-    this.routerMapping = new Map<string, RouterEngine>();
+    super(null);
+    this.routerMapping = new Map<string, RouterHelper>();
   }
 
   use(path: string, router: RouterEngine) {
-    router.key = this.counter;
+    const routerHelper: RouterHelper = new RouterHelper(router);
+    routerHelper.key = this.counter;
     this.counter++;
-    this.routerMapping.set(path, router);
+    this.routerMapping.set(path, routerHelper);
   }
   serve(req: Request): Response {
     const res = new Response();
     const path = this.sanitizeUrl(req.url);
     const method = Methods[req.method];
     let routeHandler: RouteHandler;
+    const baseHelper: RouterHelper = new RouterHelper(this);
     //We check for other router that matches the routes
     if (this.routerMapping.size != 0) {
       for (let [key, router] of this.routerMapping) {
@@ -28,7 +31,7 @@ class Melonpan extends RouterEngine {
           if (routeHandler) {
             // Execution of all the global middlwares takes place first
             let { mreq, mres } = this.executeMiddlewares(
-              this,
+              baseHelper,
               router.key,
               req,
               res
@@ -47,10 +50,10 @@ class Melonpan extends RouterEngine {
     }
 
     //We check the default router to redirect to handler
-    routeHandler = this.findHandlerfromMap(this, path, method);
+    routeHandler = this.findHandlerfromMap(baseHelper, path, method);
     if (routeHandler) {
       let { mreq, mres } = this.executeMiddlewares(
-        this,
+        baseHelper,
         routeHandler.key,
         req,
         res
@@ -61,7 +64,7 @@ class Melonpan extends RouterEngine {
   }
 
   private findHandlerfromMap(
-    router: RouterEngine,
+    router: RouterHelper,
     path: string,
     method: Methods
   ): RouteHandler {
@@ -69,18 +72,18 @@ class Melonpan extends RouterEngine {
   }
 
   private executeMiddlewares(
-    router: RouterEngine,
+    router: RouterHelper,
     key: number,
     req: Request,
     res: Response
   ): { mreq: Request; mres: Response } {
-    for (let i = 0; i < router.middlewareStorage.length; i++) {
+    for (let i = 0; i < router.getMiddlewareStorage().length; i++) {
       if (key <= i) {
         break;
       }
-      const handler: MelonMiddleware = router.middlewareMap.get(
-        router.middlewareStorage[i]
-      );
+      const handler: MelonMiddleware = router
+        .getMiddlewareMap()
+        .get(router.getMiddlewareStorage()[i]);
       handler(req, res, () => {
         return;
       });
