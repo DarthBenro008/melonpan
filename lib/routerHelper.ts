@@ -6,7 +6,7 @@ import {
   RouteHandler,
 } from "./types";
 
-class RouterHelper extends RouterEngine {
+class RouterInternalUtility extends RouterEngine {
   key: number;
   constructor(routerEngine: RouterEngine) {
     super(routerEngine);
@@ -24,4 +24,4 @@ class RouterHelper extends RouterEngine {
   }
 }
 
-export { RouterHelper };
+export { RouterInternalUtility };

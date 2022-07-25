@@ -1,5 +1,5 @@
 import { RouterEngine } from "./router";
-import { RouterHelper } from "./routerHelper";
+import { RouterInternalUtility } from "./routerHelper";
 import { MelonMiddleware, Methods, RouteHandler, RouterMap } from "./types";
 
 class Melonpan extends RouterEngine {
@@ -7,11 +7,13 @@ class Melonpan extends RouterEngine {
 
   constructor() {
     super(null);
-    this.routerMapping = new Map<string, RouterHelper>();
+    this.routerMapping = new Map<string, RouterInternalUtility>();
   }
 
   use(path: string, router: RouterEngine) {
-    const routerHelper: RouterHelper = new RouterHelper(router);
+    const routerHelper: RouterInternalUtility = new RouterInternalUtility(
+      router
+    );
     routerHelper.key = this.counter;
     this.counter++;
     this.routerMapping.set(path, routerHelper);
@@ -21,7 +23,7 @@ class Melonpan extends RouterEngine {
     const path = this.sanitizeUrl(req.url);
     const method = Methods[req.method];
     let routeHandler: RouteHandler;
-    const baseHelper: RouterHelper = new RouterHelper(this);
+    const baseHelper: RouterInternalUtility = new RouterInternalUtility(this);
     //We check for other router that matches the routes
     if (this.routerMapping.size != 0) {
       for (let [key, router] of this.routerMapping) {
@@ -64,7 +66,7 @@ class Melonpan extends RouterEngine {
   }
 
   private findHandlerfromMap(
-    router: RouterHelper,
+    router: RouterInternalUtility,
     path: string,
     method: Methods
   ): RouteHandler {
@@ -72,7 +74,7 @@ class Melonpan extends RouterEngine {
   }
 
   private executeMiddlewares(
-    router: RouterHelper,
+    router: RouterInternalUtility,
     key: number,
     req: Request,
     res: Response
