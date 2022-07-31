@@ -29,7 +29,7 @@ class Melonpan extends RouterEngine {
     if (this.routerMapping.size !== 0) {
       // eslint-disable-next-line no-restricted-syntax
       for (const [key, router] of this.routerMapping) {
-        if (path.includes(key)) {
+        if (path.startsWith(key)) {
           const trimmedPath = path.replace(key, "");
           routeHandler = Melonpan.findHandlerfromMap(
             router,
