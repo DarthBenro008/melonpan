@@ -17,10 +17,15 @@ interface RouterEngineInterface {
 
 class RouterEngine implements RouterEngineInterface {
   protected key: number;
+
   protected routerMap: RouteMap;
+
   protected counter: number;
+
   protected middlewareStorage: MiddlewareStorage;
+
   protected middlewareMap: MiddlewareMap;
+
   constructor(routerEngine?: RouterEngine) {
     if (routerEngine) {
       this.middlewareMap = routerEngine.middlewareMap;
@@ -35,6 +40,7 @@ class RouterEngine implements RouterEngineInterface {
       this.middlewareStorage = [];
     }
   }
+
   private createRoute(method: Methods, path: string, handler: MelonHandler) {
     const route: RouteHandler = {
       path,
@@ -42,14 +48,15 @@ class RouterEngine implements RouterEngineInterface {
       handler,
       key: this.counter,
     };
-    this.counter++;
-    const key: string = this.getRouterKey(method, path);
+    this.counter += 1;
+    const key: string = RouterEngine.getRouterKey(method, path);
     this.routerMap.set(key, route);
   }
 
   get(path: string, handler: MelonHandler) {
     this.createRoute(Methods.GET, path, handler);
   }
+
   post(path: string, handler: MelonHandler) {
     this.createRoute(Methods.POST, path, handler);
   }
@@ -57,17 +64,20 @@ class RouterEngine implements RouterEngineInterface {
   delete(path: string, handler: MelonHandler) {
     this.createRoute(Methods.DELETE, path, handler);
   }
+
   put(path: string, handler: MelonHandler) {
     this.createRoute(Methods.PUT, path, handler);
   }
-  protected getRouterKey(method: Methods, path: string): string {
+
+  protected static getRouterKey(method: Methods, path: string): string {
     return method + path;
   }
+
   middleware(melonMiddleware: MelonMiddleware) {
     this.middlewareMap.set(this.counter, melonMiddleware);
     this.middlewareStorage.push(this.counter);
-    this.counter++;
+    this.counter += 1;
   }
 }
 
-export { RouterEngine };
+export default RouterEngine;

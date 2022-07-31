@@ -1,4 +1,4 @@
-import { RouterEngine } from "./router";
+import RouterEngine from "./router";
 import {
   Methods,
   MiddlewareMap,
@@ -8,20 +8,18 @@ import {
 
 class RouterInternalUtility extends RouterEngine {
   key: number;
-  constructor(routerEngine: RouterEngine) {
-    super(routerEngine);
-  }
 
   getMiddlewareMap(): MiddlewareMap {
     return this.middlewareMap;
   }
+
   getMiddlewareStorage(): MiddlewareStorage {
     return this.middlewareStorage;
   }
 
   getRouteFromRouter(method: Methods, path: string): RouteHandler {
-    return this.routerMap.get(this.getRouterKey(method, path));
+    return this.routerMap.get(RouterInternalUtility.getRouterKey(method, path));
   }
 }
 
-export { RouterInternalUtility };
+export default RouterInternalUtility;
