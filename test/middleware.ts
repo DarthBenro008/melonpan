@@ -16,16 +16,16 @@ melonpan.get(
   () => new Response(`this is a nested Router ${counter}`)
 );
 melonpan.middleware(() => {
-  console.log("middlware has been hit 3");
+  counter += 4;
 });
 
 melonpan.get("/hi", () => new Response("3 middlewares have been called"));
 
 const router = new MelonRouter();
 router.middleware(() => {
-  console.log("router: middleware");
+  counter += 2;
 });
-router.get("/mid", () => new Response("Router hit1"));
+router.get("/mid", () => new Response(`Router has been hit ${counter}`));
 melonpan.use("/router", router);
 export default {
   port: 3000,
