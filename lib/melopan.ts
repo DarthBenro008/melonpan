@@ -68,7 +68,7 @@ class Melonpan extends RouterEngine {
       );
       return routeHandler.handler(mreq, mres);
     }
-    return new Response(`cannot find ${path}`);
+    return new Response(`cannot find ${path}`, { status: 404 });
   }
 
   private static findHandlerfromMap(
