@@ -8,10 +8,11 @@ export enum Methods {
   PUT = "PUT",
 }
 
-export type MelonHandler = (req: Request, res: Response) => Response;
+export type MelonContext = any;
+export type MelonHandler = (req: Request, ctx: MelonContext) => Response;
 export type MelonMiddleware = (
   req: Request,
-  res: Response,
+  ctx: MelonContext,
   next: () => void
 ) => void;
 
