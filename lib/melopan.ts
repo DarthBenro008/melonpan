@@ -105,7 +105,11 @@ class Melonpan extends RouterEngine {
   }
 
   private static sanitizeUrl(url: string): string {
-    return new URL(url).pathname;
+    const parsedUrl = new URL(url).pathname;
+    if (parsedUrl.slice(-1) === "/") {
+      return parsedUrl.slice(0, -1);
+    }
+    return parsedUrl;
   }
 }
 

@@ -11,8 +11,8 @@ it("ensures GET Verb registers", async () => {
   const resp = melonpan.serve(
     new Request(`${httpEndpoint}get/test`, { method: "GET" })
   );
-  const parsedResult = await resp.json();
   expect(resp.status).toBe(200);
+  const parsedResult = await resp.json();
   expect(parsedResult.message).toBe(data.message);
 });
 
@@ -23,8 +23,8 @@ it("ensures GET exclusivity", async () => {
   const resp = melonpan.serve(
     new Request(`${httpEndpoint}get/test`, { method: "POST" })
   );
-  const parsedResult = await resp.text();
   expect(resp.status).toBe(404);
+  const parsedResult = await resp.text();
   expect(parsedResult).toBe(`cannot find /get/test`);
 });
 
@@ -35,8 +35,8 @@ it("ensures POST Verb registers", async () => {
   const resp = melonpan.serve(
     new Request(`${httpEndpoint}post/test`, { method: "POST" })
   );
-  const parsedResult = await resp.json();
   expect(resp.status).toBe(200);
+  const parsedResult = await resp.json();
   expect(parsedResult.message).toBe(data.message);
 });
 
@@ -47,8 +47,8 @@ it("ensures POST exclusivity", async () => {
   const resp = melonpan.serve(
     new Request(`${httpEndpoint}post/test`, { method: "GET" })
   );
-  const parsedResult = await resp.text();
   expect(resp.status).toBe(404);
+  const parsedResult = await resp.text();
   expect(parsedResult).toBe(`cannot find /post/test`);
 });
 
@@ -59,8 +59,8 @@ it("ensures PUT Verb registers", async () => {
   const resp = melonpan.serve(
     new Request(`${httpEndpoint}put/test`, { method: "PUT" })
   );
-  const parsedResult = await resp.json();
   expect(resp.status).toBe(200);
+  const parsedResult = await resp.json();
   expect(parsedResult.message).toBe(data.message);
 });
 
@@ -71,8 +71,8 @@ it("ensures PUT exclusivity", async () => {
   const resp = melonpan.serve(
     new Request(`${httpEndpoint}put/test`, { method: "GET" })
   );
-  const parsedResult = await resp.text();
   expect(resp.status).toBe(404);
+  const parsedResult = await resp.text();
   expect(parsedResult).toBe(`cannot find /put/test`);
 });
 
@@ -83,8 +83,8 @@ it("ensures DELETE Verb registers", async () => {
   const resp = melonpan.serve(
     new Request(`${httpEndpoint}delete/test`, { method: "DELETE" })
   );
-  const parsedResult = await resp.json();
   expect(resp.status).toBe(200);
+  const parsedResult = await resp.json();
   expect(parsedResult.message).toBe(data.message);
 });
 
@@ -95,7 +95,7 @@ it("ensures DELETE exclusivity", async () => {
   const resp = melonpan.serve(
     new Request(`${httpEndpoint}delete/test`, { method: "GET" })
   );
-  const parsedResult = await resp.text();
   expect(resp.status).toBe(404);
+  const parsedResult = await resp.text();
   expect(parsedResult).toBe(`cannot find /delete/test`);
 });
