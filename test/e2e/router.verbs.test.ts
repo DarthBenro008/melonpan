@@ -1,5 +1,5 @@
 import { it, expect } from "bun:test";
-import { data, parsedData, httpEndpoint } from "./helper";
+import { data, parsedData, httpEndpoint, Data } from "./helper";
 import { Melonpan, MelonRouter } from "../../index";
 
 const melonpan = new Melonpan();
@@ -12,7 +12,7 @@ it("ensures GET Verb registers", async () => {
     new Request(`${httpEndpoint}get/test`, { method: "GET" })
   );
   expect(resp.status).toBe(200);
-  const parsedResult = await resp.json();
+  const parsedResult = (await resp.json()) as Data;
   expect(parsedResult.message).toBe(data.message);
 });
 
@@ -36,7 +36,7 @@ it("ensures POST Verb registers", async () => {
     new Request(`${httpEndpoint}post/test`, { method: "POST" })
   );
   expect(resp.status).toBe(200);
-  const parsedResult = await resp.json();
+  const parsedResult = (await resp.json()) as Data;
   expect(parsedResult.message).toBe(data.message);
 });
 
@@ -60,7 +60,7 @@ it("ensures PUT Verb registers", async () => {
     new Request(`${httpEndpoint}put/test`, { method: "PUT" })
   );
   expect(resp.status).toBe(200);
-  const parsedResult = await resp.json();
+  const parsedResult = (await resp.json()) as Data;
   expect(parsedResult.message).toBe(data.message);
 });
 
@@ -84,7 +84,7 @@ it("ensures DELETE Verb registers", async () => {
     new Request(`${httpEndpoint}delete/test`, { method: "DELETE" })
   );
   expect(resp.status).toBe(200);
-  const parsedResult = await resp.json();
+  const parsedResult = (await resp.json()) as Data;
   expect(parsedResult.message).toBe(data.message);
 });
 

@@ -7,7 +7,7 @@ import {
 } from "./types";
 
 class RouterInternalUtility extends RouterEngine {
-  key: number;
+  declare key: number;
 
   getMiddlewareMap(): MiddlewareMap {
     return this.middlewareMap;

@@ -1,6 +1,6 @@
 import { it, expect } from "bun:test";
 import { Melonpan, MelonRouter } from "../../index";
-import { data, httpEndpoint, parsedData } from "./helper";
+import { Data, data, httpEndpoint, parsedData } from "./helper";
 
 const melonpan = new Melonpan();
 
@@ -12,7 +12,7 @@ it("checks route registration takes place", async () => {
     new Request(`${httpEndpoint}test/foo/bar`, { method: "GET" })
   );
   expect(resp.status).toBe(200);
-  const parsedResult = await resp.json();
+  const parsedResult = (await resp.json()) as Data;
   expect(parsedResult.message).toBe(data.message);
 });
 
@@ -36,7 +36,7 @@ it("checks route with trailing slashes", async () => {
     new Request(`${httpEndpoint}test/foo/bar/`, { method: "GET" })
   );
   expect(resp.status).toBe(200);
-  const parsedResult = await resp.json();
+  const parsedResult = (await resp.json()) as Data;
   expect(parsedResult.message).toBe(data.message);
 });
 
@@ -50,7 +50,7 @@ it("checks similar route registration", async () => {
     new Request(`${httpEndpoint}test/foo/bar`, { method: "GET" })
   );
   expect(resp.status).toBe(200);
-  const parsedResult = await resp.json();
+  const parsedResult = (await resp.json()) as Data;
   expect(parsedResult.message).toBe(data.message);
   const secondResp = melonpan.serve(
     new Request(`${httpEndpoint}test/foo/bar/foof`, { method: "GET" })
