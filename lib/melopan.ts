@@ -1,12 +1,7 @@
 import RouterEngine from "./router";
 import RouterInternalUtility from "./routerHelper";
-import {
-  MelonMiddleware,
-  MelonContext,
-  Methods,
-  RouteHandler,
-  RouterMap,
-} from "./types";
+import MelonContext from "./context";
+import { MelonMiddleware, Methods, RouteHandler, RouterMap } from "./types";
 
 class Melonpan extends RouterEngine {
   private routerMapping: RouterMap;
@@ -26,7 +21,7 @@ class Melonpan extends RouterEngine {
   }
 
   serve(req: Request): Response {
-    const ctx: MelonContext = {};
+    const ctx: MelonContext = new MelonContext();
     const path = Melonpan.sanitizeUrl(req.url);
     const method = Methods[req.method];
     let routeHandler: RouteHandler;
@@ -74,6 +69,18 @@ class Melonpan extends RouterEngine {
       );
       return routeHandler.handler(mreq, mctx);
     }
+    // Look for default handler
+    const defaultHandler = Melonpan.findHandlerfromMap(baseHelper, "*", method);
+    if (defaultHandler) {
+      const { mreq, mctx } = Melonpan.executeMiddlewares(
+        baseHelper,
+        defaultHandler.key,
+        req,
+        ctx
+      );
+      return defaultHandler.handler(mreq, mctx);
+    }
+    // If default handler is not found
     return new Response(`cannot find ${path}`, { status: 404 });
   }
 
@@ -106,7 +113,7 @@ class Melonpan extends RouterEngine {
 
   private static sanitizeUrl(url: string): string {
     const parsedUrl = new URL(url).pathname;
-    if (parsedUrl.slice(-1) === "/") {
+    if (parsedUrl.slice(-1) === "/" && parsedUrl.length !== 1) {
       return parsedUrl.slice(0, -1);
     }
     return parsedUrl;
