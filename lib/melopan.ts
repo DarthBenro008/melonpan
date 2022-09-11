@@ -69,6 +69,18 @@ class Melonpan extends RouterEngine {
       );
       return routeHandler.handler(mreq, mctx);
     }
+    // Look for default handler
+    const defaultHandler = Melonpan.findHandlerfromMap(baseHelper, "*", method);
+    if (defaultHandler) {
+      const { mreq, mctx } = Melonpan.executeMiddlewares(
+        baseHelper,
+        defaultHandler.key,
+        req,
+        ctx
+      );
+      return defaultHandler.handler(mreq, mctx);
+    }
+    // If default handler is not found
     return new Response(`cannot find ${path}`, { status: 404 });
   }
 
