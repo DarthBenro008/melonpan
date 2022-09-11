@@ -3,6 +3,7 @@ import {
   Methods,
   MiddlewareMap,
   MiddlewareStorage,
+  QueryParamMap,
   RouteHandler,
 } from "./types";
 
@@ -11,6 +12,10 @@ class RouterInternalUtility extends RouterEngine {
 
   getMiddlewareMap(): MiddlewareMap {
     return this.middlewareMap;
+  }
+
+  getQpMap(): QueryParamMap {
+    return this.qpMap;
   }
 
   getMiddlewareStorage(): MiddlewareStorage {

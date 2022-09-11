@@ -16,6 +16,15 @@ export type MelonMiddleware = (
   next: () => void
 ) => void;
 
+export type MelonPath = {
+  startsWith: string;
+  params: Array<string>;
+  paramsIndex: Array<number>;
+  counterIndex: Array<number>;
+  route: string;
+  routeSliced: Array<string>;
+};
+
 export type RouteHandler = {
   path: string;
   method: Methods;
@@ -24,6 +33,7 @@ export type RouteHandler = {
 };
 
 export type RouteMap = Map<string, RouteHandler>;
+export type QueryParamMap = Map<number, Array<MelonPath>>;
 export type RouterMap = Map<string, RouterInternalUtility>;
 export type MiddlewareMap = Map<number, MelonMiddleware>;
 

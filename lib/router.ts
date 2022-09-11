@@ -1,9 +1,12 @@
+import PathUtilities from "./path_utilities";
 import {
   MelonHandler,
   MelonMiddleware,
+  MelonPath,
   Methods,
   MiddlewareMap,
   MiddlewareStorage,
+  QueryParamMap,
   RouteHandler,
   RouteMap,
 } from "./types";
@@ -26,16 +29,20 @@ class RouterEngine implements RouterEngineInterface {
 
   protected middlewareMap: MiddlewareMap;
 
+  protected qpMap: QueryParamMap;
+
   constructor(routerEngine?: RouterEngine) {
     if (routerEngine) {
       this.middlewareMap = routerEngine.middlewareMap;
       this.routerMap = routerEngine.routerMap;
       this.middlewareStorage = routerEngine.middlewareStorage;
+      this.qpMap = routerEngine.qpMap;
       this.counter = routerEngine.counter;
       this.key = routerEngine.key;
     } else {
       this.routerMap = new Map<string, RouteHandler>();
       this.middlewareMap = new Map<number, MelonMiddleware>();
+      this.qpMap = new Map<number, Array<MelonPath>>();
       this.counter = 0;
       this.middlewareStorage = [];
     }
@@ -51,6 +58,24 @@ class RouterEngine implements RouterEngineInterface {
     this.counter += 1;
     const key: string = RouterEngine.getRouterKey(method, path);
     this.routerMap.set(key, route);
+    const qPath = new PathUtilities(path);
+    if (qPath.hasQueryParams()) {
+      this.insertQueryParam(qPath);
+    }
+  }
+
+  private insertQueryParam(instance: PathUtilities) {
+    const melonpath = instance.createMelonPath();
+    const key = melonpath.routeSliced.length;
+    if (this.qpMap.has(key)) {
+      const data = this.qpMap.get(key);
+      data.push(melonpath);
+      this.qpMap.set(key, data);
+    } else {
+      const data = [];
+      data.push(melonpath);
+      this.qpMap.set(key, data);
+    }
   }
 
   get(path: string, handler: MelonHandler) {
