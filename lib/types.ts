@@ -1,3 +1,4 @@
+import MelonContext from "./context";
 import RouterInternalUtility from "./routerHelper";
 
 // eslint-disable-next-line no-shadow
@@ -8,7 +9,6 @@ export enum Methods {
   PUT = "PUT",
 }
 
-export type MelonContext = any;
 export type MelonHandler = (req: Request, ctx: MelonContext) => Response;
 export type MelonMiddleware = (
   req: Request,

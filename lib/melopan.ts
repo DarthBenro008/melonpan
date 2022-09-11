@@ -1,12 +1,7 @@
 import RouterEngine from "./router";
 import RouterInternalUtility from "./routerHelper";
-import {
-  MelonMiddleware,
-  MelonContext,
-  Methods,
-  RouteHandler,
-  RouterMap,
-} from "./types";
+import MelonContext from "./context";
+import { MelonMiddleware, Methods, RouteHandler, RouterMap } from "./types";
 
 class Melonpan extends RouterEngine {
   private routerMapping: RouterMap;
@@ -26,7 +21,7 @@ class Melonpan extends RouterEngine {
   }
 
   serve(req: Request): Response {
-    const ctx: MelonContext = {};
+    const ctx: MelonContext = new MelonContext();
     const path = Melonpan.sanitizeUrl(req.url);
     const method = Methods[req.method];
     let routeHandler: RouteHandler;
