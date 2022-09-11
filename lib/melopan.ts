@@ -2,6 +2,7 @@ import RouterEngine from "./router";
 import RouterInternalUtility from "./routerHelper";
 import MelonContext from "./context";
 import { MelonMiddleware, Methods, RouteHandler, RouterMap } from "./types";
+import PathUtilities, { MelonQueryParams } from "./path_utilities";
 
 class Melonpan extends RouterEngine {
   private routerMapping: RouterMap;
@@ -22,8 +23,15 @@ class Melonpan extends RouterEngine {
 
   serve(req: Request): Response {
     const ctx: MelonContext = new MelonContext();
-    const path = Melonpan.sanitizeUrl(req.url);
+    let path = Melonpan.sanitizeUrl(req.url);
     const method = Methods[req.method];
+    if (this.qpMap.size !== 0) {
+      const [qp, newPath] = this.checkQueryParams(path);
+      if (newPath !== "") {
+        path = newPath;
+      }
+      ctx.params = qp;
+    }
     let routeHandler: RouteHandler;
     const baseHelper: RouterInternalUtility = new RouterInternalUtility(this);
     // We check for other router that matches the routes
@@ -117,6 +125,23 @@ class Melonpan extends RouterEngine {
       return parsedUrl.slice(0, -1);
     }
     return parsedUrl;
+  }
+
+  private checkQueryParams(path: string): [MelonQueryParams, string] {
+    const pathSlicer = path.split("/");
+    if (this.qpMap.has(pathSlicer.length)) {
+      const data = this.qpMap.get(pathSlicer.length);
+      // eslint-disable-next-line no-restricted-syntax
+      for (const paths of data) {
+        if (PathUtilities.verifyPathForQueryParams(path, paths)) {
+          return [
+            PathUtilities.extractQueryParamsFromPath(path, paths),
+            paths.route,
+          ];
+        }
+      }
+    }
+    return [{}, ""];
   }
 }
 
