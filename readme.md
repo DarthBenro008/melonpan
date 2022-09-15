@@ -22,7 +22,7 @@ import { Melonpan, MelonRouter } from "melonpan";
 
 const melonpan = new Melonpan();
 // Simple middleware definitions
-melonpan.use((_req, ctx, next) => {
+melonpan.middleware((_req, ctx, next) => {
     console.log("A middleware has been hit!")
 })
 // Easy query params parsing!
