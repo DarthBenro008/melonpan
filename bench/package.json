@@ -1,0 +1,16 @@
+{
+  "name": "bench",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "bench:cannon": "node cannon.mjs",
+    "bench:clean": "yarn pm2 delete all",
+    "bench:start": "yarn pm2 start bench.config.js",
+    "bench": "yarn bench:start && yarn bench:cannon && yarn bench:clean"
+  },
+  "dependencies": {
+    "autocannon": "^7.9.0",
+    "express": "^4.18.1"
+  }
+}
