@@ -1,6 +1,6 @@
 import { it, expect } from "bun:test";
 import { data, parsedData, httpEndpoint, Data } from "./helper";
-import { Melonpan, MelonRouter } from "../../index";
+import { Melonpan, MelonRouter } from "../index";
 
 const melonpan = new Melonpan();
 
