@@ -2,7 +2,7 @@ import { it, expect } from "bun:test";
 import { Melonpan, MelonRouter } from "../index";
 import { Data, data, httpEndpoint, parsedData } from "./helper";
 
-const melonpan = new Melonpan();
+const melonpan = new Melonpan({ logo: false, logging: false });
 
 it("checks route registration takes place", async () => {
   const router = new MelonRouter();

@@ -2,7 +2,7 @@ import { it, expect } from "bun:test";
 import { httpEndpoint } from "./helper";
 import { Melonpan, MelonRouter } from "../index";
 
-const melonpan = new Melonpan();
+const melonpan = new Melonpan({ logo: false, logging: false });
 
 it("checks middleware registration", async () => {
   const router = new MelonRouter();
