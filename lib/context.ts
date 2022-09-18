@@ -6,13 +6,13 @@ interface IMelonResponseOptions {
 
 interface IMelonContext {
   json(
-    statusCode: number,
     message: any,
+    statusCode?: number,
     options?: IMelonResponseOptions
   ): Response;
   text(
-    statusCode: number,
     message: any,
+    statusCode?: number,
     options?: IMelonResponseOptions
   ): Response;
   [index: string]: any;
@@ -22,22 +22,22 @@ class MelonContext implements IMelonContext {
   [index: string]: any;
 
   json(
-    statusCode: number,
     message: any,
+    statusCode: number,
     options?: IMelonResponseOptions
   ): Response {
     return new Response(JSON.stringify(message), {
-      status: statusCode,
+      status: statusCode ?? 200,
       ...options,
     });
   }
 
   text(
-    statusCode: number,
     message: any,
+    statusCode?: number,
     options?: IMelonResponseOptions
   ): Response {
-    return new Response(message, { status: statusCode, ...options });
+    return new Response(message, { status: statusCode ?? 200, ...options });
   }
 }
 
