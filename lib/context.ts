@@ -23,7 +23,7 @@ class MelonContext implements IMelonContext {
 
   json(
     message: any,
-    statusCode: number,
+    statusCode?: number,
     options?: IMelonResponseOptions
   ): Response {
     return new Response(JSON.stringify(message), {

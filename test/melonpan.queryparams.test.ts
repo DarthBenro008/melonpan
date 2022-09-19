@@ -7,7 +7,7 @@ const qp = "123";
 const qpp = "567";
 
 it("checks for query params in simple route", async () => {
-  melonpan.get("/foo/:id", (_req, ctx) => ctx.text(200, ctx.params.id));
+  melonpan.get("/foo/:id", (_req, ctx) => ctx.text(ctx.params.id));
   const resp = melonpan.serve(
     new Request(`${httpEndpoint}foo/${qp}`, { method: "GET" })
   );
@@ -17,9 +17,7 @@ it("checks for query params in simple route", async () => {
 });
 
 it("checks for query params in complex route", async () => {
-  melonpan.get("/foo/:id/bar/:secondary", (_req, ctx) =>
-    ctx.json(200, ctx.params)
-  );
+  melonpan.get("/foo/:id/bar/:secondary", (_req, ctx) => ctx.json(ctx.params));
   const resp = melonpan.serve(
     new Request(`${httpEndpoint}foo/${qp}/bar/${qpp}`, { method: "GET" })
   );
@@ -30,8 +28,8 @@ it("checks for query params in complex route", async () => {
 });
 
 it("checks for query params when multiple routes are present", async () => {
-  melonpan.get("/foo/:id", (_req, ctx) => ctx.text(200, ctx.params.id));
-  melonpan.get("/bar/:id", (_req, ctx) => ctx.text(200, ctx.params.id));
+  melonpan.get("/foo/:id", (_req, ctx) => ctx.text(ctx.params.id));
+  melonpan.get("/bar/:id", (_req, ctx) => ctx.text(ctx.params.id));
   const resp = melonpan.serve(
     new Request(`${httpEndpoint}foo/${qp}`, { method: "GET" })
   );
