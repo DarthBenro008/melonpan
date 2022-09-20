@@ -2,7 +2,7 @@ import { it, expect } from "bun:test";
 import { data, parsedData, httpEndpoint, Data } from "./helper";
 import { Melonpan, MelonRouter } from "../index";
 
-const melonpan = new Melonpan();
+const melonpan = new Melonpan({ logo: false, logging: false });
 
 it("ensures GET Verb registers", async () => {
   const router = new MelonRouter();

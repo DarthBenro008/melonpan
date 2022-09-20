@@ -3,12 +3,45 @@ import RouterInternalUtility from "./routerHelper";
 import MelonContext from "./context";
 import { MelonMiddleware, Methods, RouteHandler, RouterMap } from "./types";
 import PathUtilities, { MelonQueryParams } from "./path_utilities";
+import Logger from "./logger";
+
+interface MelonpanOptions {
+  logging: boolean;
+  logo: boolean;
+}
 
 class Melonpan extends RouterEngine {
   private routerMapping: RouterMap;
 
-  constructor() {
+  private loggerEnabled: boolean;
+
+  private logger: Logger;
+
+  private parseOptions(options: MelonpanOptions) {
+    if (options.logging) {
+      this.loggerEnabled = true;
+      this.logger = new Logger();
+    }
+    if (options.logo) {
+      Logger.logo();
+    }
+  }
+
+  private log(req: Request): void {
+    this.logger.routeLogger(req);
+  }
+
+  constructor(options?: MelonpanOptions) {
     super(null);
+    const defaultOpts: MelonpanOptions = {
+      logo: true,
+      logging: true,
+    };
+    if (!options) {
+      this.parseOptions(defaultOpts);
+    } else {
+      this.parseOptions(options);
+    }
     this.routerMapping = new Map<string, RouterInternalUtility>();
   }
 
@@ -22,6 +55,9 @@ class Melonpan extends RouterEngine {
   }
 
   serve(req: Request): Response {
+    if (this.loggerEnabled) {
+      this.log(req);
+    }
     const ctx: MelonContext = new MelonContext();
     let path = Melonpan.sanitizeUrl(req.url);
     const method = Methods[req.method];

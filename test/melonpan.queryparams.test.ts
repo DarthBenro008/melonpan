@@ -2,7 +2,7 @@ import { it, expect } from "bun:test";
 import { Melonpan } from "../index";
 import { httpEndpoint } from "./helper";
 
-const melonpan = new Melonpan();
+const melonpan = new Melonpan({ logo: false, logging: false });
 const qp = "123";
 const qpp = "567";
 
