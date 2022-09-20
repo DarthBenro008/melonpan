@@ -27,14 +27,14 @@ melonpan.middleware((_req, ctx, next) => {
 })
 // Easy query params parsing!
 melonpan.get("/api/:id", (_req, ctx) => {
-    return ctx.json(200, {"id": ctx.params.id});
+    return ctx.json({"id": ctx.params.id}, 200);
 })
 // Routing done in very simple manner
-melonpan.get("/" , (_req, ctx) => ctx.text(200, "Hello world!"));
+melonpan.get("/" , (_req, ctx) => ctx.text("Hello world!"));
 
 // Easy definitions of routers and handlers!
 const melonRouter = new MelonRouter();
-melonRouter.get("/bar", (_req, ctx) => ctx.text(200, "this is a router"));
+melonRouter.get("/bar", (_req, ctx) => ctx.text("this is a router", 200));
 melonpan.use("/foo", melonRouter);
 
 export default {
