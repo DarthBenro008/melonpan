@@ -1,6 +1,6 @@
 {
   "name": "melonpan",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A minimalistic and sweet router for blazing fast bun",
   "main": "index.ts",
   "repository": "https://github.com/DarthBenro008/melonpan",
