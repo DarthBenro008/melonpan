@@ -186,7 +186,5 @@ export {
   Melonpan, 
   MelonContext, 
   MelonMiddleware, 
-  MelonHandler,
-  Methods as MelonMethods, 
-  RouteHandler as MelonRouteHandler
+  MelonHandler
 };
