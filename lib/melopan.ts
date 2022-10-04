@@ -1,7 +1,7 @@
 import RouterEngine from "./router";
 import RouterInternalUtility from "./routerHelper";
 import MelonContext from "./context";
-import { MelonMiddleware, Methods, RouteHandler, RouterMap } from "./types";
+import { MelonMiddleware, Methods, RouteHandler, RouterMap, MelonHandler } from "./types";
 import PathUtilities, { MelonQueryParams } from "./path_utilities";
 import Logger from "./logger";
 
@@ -181,4 +181,10 @@ class Melonpan extends RouterEngine {
   }
 }
 
-export { RouterEngine as MelonRouter, Melonpan };
+export { 
+  RouterEngine as MelonRouter, 
+  Melonpan, 
+  MelonContext, 
+  MelonMiddleware, 
+  MelonHandler
+};
