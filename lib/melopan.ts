@@ -184,7 +184,7 @@ class Melonpan extends RouterEngine {
 export { 
   RouterEngine as MelonRouter, 
   Melonpan, 
-  MelonContext, 
-  MelonMiddleware, 
-  MelonHandler
+  MelonContext
 };
+
+export type { MelonMiddleware, MelonHandler }
