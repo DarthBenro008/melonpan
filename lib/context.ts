@@ -21,6 +21,12 @@ interface IMelonContext {
 class MelonContext implements IMelonContext {
   [index: string]: any;
 
+  private headers: Headers;
+
+  constructor(headers) {
+    this.headers = headers;
+  }
+
   json(
     message: any,
     statusCode?: number,
@@ -28,6 +34,7 @@ class MelonContext implements IMelonContext {
   ): Response {
     return new Response(JSON.stringify(message), {
       status: statusCode ?? 200,
+      headers: this.headers,
       ...options,
     });
   }
@@ -37,7 +44,7 @@ class MelonContext implements IMelonContext {
     statusCode?: number,
     options?: IMelonResponseOptions
   ): Response {
-    return new Response(message, { status: statusCode ?? 200, ...options });
+    return new Response(message, { status: statusCode ?? 200, headers: this.headers, ...options });
   }
 }
 
