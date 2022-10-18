@@ -5,6 +5,9 @@ interface IMelonResponseOptions {
 }
 
 interface IMelonContext {
+  res(
+    res: Response
+  );
   json(
     message: any,
     statusCode?: number,
@@ -20,6 +23,10 @@ interface IMelonContext {
 
 class MelonContext implements IMelonContext {
   [index: string]: any;
+
+  res(res: Response) {
+    return res
+  }
 
   json(
     message: any,
