@@ -17,6 +17,8 @@ class Melonpan extends RouterEngine {
 
   private logger: Logger;
 
+  private headers: Headers = new Headers();
+
   private parseOptions(options: MelonpanOptions) {
     if (options.logging) {
       this.loggerEnabled = true;
@@ -54,11 +56,18 @@ class Melonpan extends RouterEngine {
     this.routerMapping.set(path, routerHelper);
   }
 
+  cors() {
+    this.headers.append("Access-Control-Allow-Origin", "*");
+    this.headers.append("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+    this.headers.append("Access-Control-Allow-Headers", "X-PINGOTHER, Content-Type");
+    this.headers.append("Access-Control-Max-Age", "86400");
+  }
+
   serve(req: Request): Response {
     if (this.loggerEnabled) {
       this.log(req);
     }
-    const ctx: MelonContext = new MelonContext();
+    const ctx: MelonContext = new MelonContext(this.headers);
     let path = Melonpan.sanitizeUrl(req.url);
     const method = Methods[req.method];
     if (this.qpMap.size !== 0) {
@@ -125,7 +134,7 @@ class Melonpan extends RouterEngine {
       return defaultHandler.handler(mreq, mctx);
     }
     // If default handler is not found
-    return new Response(`cannot find ${path}`, { status: 404 });
+    return new Response(`cannot find ${path}`, { status: 404, headers: this.headers });
   }
 
   private static findHandlerfromMap(
